@@ -1,13 +1,16 @@
 package com.kluckerz;
 
 import com.jme3.app.SimpleApplication;
+import com.kluckerz.editor.Editor;
 
 /**
  * Main class of the game.
- * @author Gerald Backmeister <kluckerz@backmeister.name>
+ * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public class Main extends SimpleApplication {
     
+    private Editor editor;
+
     public static void main(final String[] args) {
         Main app = new Main();
         app.start();
@@ -15,7 +18,16 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        // TODO:
+        editor = createEditor();
+        editor.start();
+    }
+    
+    protected Editor createEditor() {
+        return new Editor(this);
+    }
+    
+    public void simpleUpdate(final float f) {
+        editor.update();
     }
     
 }
