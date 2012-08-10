@@ -19,14 +19,21 @@ public class Cursor {
     private float sizeX;
     
     private float sizeY;
+
+    private float sizeZ;
     
+    /**
+     * Creates a new editing cursor object.
+     * @param app The main application.
+     */
     public Cursor(final SimpleApplication app) {
         this.app = app;
         node = createNode();
         
         BoundingBox bb = getBoundingBox(node);
-        sizeX = bb == null ? 0 : bb.getXExtent();
-        sizeY = bb == null ? 0 : bb.getYExtent();
+        sizeX = bb == null ? 0 : bb.getXExtent() * 2;
+        sizeY = bb == null ? 0 : bb.getYExtent() * 2;
+        sizeZ = bb == null ? 0 : bb.getZExtent() * 2;
     }
     
     private Node createNode() {
@@ -42,35 +49,81 @@ public class Cursor {
         return null;
     }
     
+    /**
+     * Returns the node which corresponds to the cursor.
+     */
     public Node getNode() {
         return node;
     }
+
+    /**
+     * Moves the cursor to the given relative direction (depending on the camera view).
+     * @param direction The relative direction.
+     * @param camView The direction in which the camera looks.
+     */
+    public void moveRelative(final Direction direction, final Direction camView) {
+        Direction moveDirection = direction.translateFromView(camView);
+        switch(moveDirection) {
+            case Direction.NORTH:
+                moveNorth();
+                break;
+            case Direction.EAST:
+                moveEast();
+                break;
+            case Direction.SOUTH:
+                moveSouth();
+                break;
+            case Direction.WEST:
+                moveWest();
+                break;
+        }
+    }
     
+    /**
+     * Moves the cursor up by one cursor y size.
+     */
     public void moveUp() {
-        Vector3f pos = node.getLocalTranslation();
-        float stepY = sizeY * 2;
-        Vector3f newPos = pos.add(0, stepY, 0);
-        node.setLocalTranslation(newPos);
+        move(0, sizeY, 0);
     }
     
+    /**
+     * Moves the cursor down by one cursor y size.
+     */
     public void moveDown() {
-        Vector3f pos = node.getLocalTranslation();
-        float stepY = sizeY * -2;
-        Vector3f newPos = pos.add(0, stepY, 0);
-        node.setLocalTranslation(newPos);
+        move(0, sizeY * -1, 0);
+    }
+
+    /**
+     * Moves the cursor northward by one cursor z size.
+     */
+    public void moveNorth() {
+        move(0, 0, sizeZ * -1, 0);
+    }
+
+    /**
+     * Moves the cursor eastward by one cursor x size.
+     */
+    public void moveEast() {
+        move(sizeX, 0, 0);
+    }
+
+    /**
+     * Moves the cursor southward by one cursor z size.
+     */
+    public void moveSouth() {
+        move(0, 0, sizeZ, 0);
     }
     
-    public void moveLeft() {
-        Vector3f pos = node.getLocalTranslation();
-        float stepX = sizeX * -2;
-        Vector3f newPos = pos.add(stepX, 0, 0);
-        node.setLocalTranslation(newPos);
+    /**
+     * Moves the cursor westward by one cursor x size.
+     */
+    public void moveWest() {
+        move(sizeX * -1, 0, 0);
     }
     
-    public void moveRight() {
+    private void move(final float x, final float y, final float z) {
         Vector3f pos = node.getLocalTranslation();
-        float stepX = sizeX * 2;
-        Vector3f newPos = pos.add(stepX, 0, 0);
+        Vector3f newPos = pos.add(x, y, z);
         node.setLocalTranslation(newPos);
     }
     

@@ -5,6 +5,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 
+import com.kluckerz.Direction;
+
 /**
  * Extension for the default camera to be used in editor mode.
  * @author Gerald Backmeister <gerald at backmeister.name>
@@ -17,7 +19,7 @@ public class Cam {
     
     private float currentPhiAngle;
     
-    private float targetPhiAngle;
+    private float phiChange;
     
     private float currentThetaAngle;
     
@@ -41,7 +43,7 @@ public class Cam {
         this.target = target;
         
         currentPhiAngle = 0;
-        targetPhiAngle = currentPhiAngle;
+        phiChange = 0;
         currentDistance = 50;
         targetDistance = currentDistance;
         currentThetaAngle = 0;
@@ -53,24 +55,14 @@ public class Cam {
      * Turn the camera view clockwise around the observed target.
      */
     public void turnClockwise() {
-        if(currentPhiAngle == 0) {
-            targetPhiAngle = 270;
-            currentPhiAngle = 360;
-        } else {
-            targetPhiAngle = currentPhiAngle - 90;
-        }
+        phiChange -= 90;
     }
     
     /**
      * Turn the camera view counter-clockwise around the observed target.
      */
     public void turnCounterClockwise() {
-        if(currentPhiAngle == 360) {
-            targetPhiAngle = 90;
-            currentPhiAngle = 0;
-        } else {
-            targetPhiAngle = currentPhiAngle + 90;
-        }
+        phiChange += 90;
     }
     
     /**
@@ -100,6 +92,21 @@ public class Cam {
             targetThetaAngle = 0;
         }
     }
+
+    /**
+     * Returns the direction in which the camera "looks".
+     * @return A value of the Direction enumeration that specifies the direction.
+     */
+    public Direction getViewDirection() {
+        if(currentPhiAngle > 45 && currentPhiAngle <= 135) {
+            return Direction.WEST;
+        } else if(currentPhiAngle > 135 && currentPhiAngle <= 225) {
+            return Direction.SOUTH;
+        } else if(currentPhiAngle > 225 && currentPhiAngle <= 315) {
+            return Direction.EAST;
+        }
+        return Direction.NORTH;
+    }
     
     /**
      * Update the camera's position, if necessary. Usually called per frame from
@@ -116,17 +123,25 @@ public class Cam {
      */
     public void update(final boolean forceUpdate) {
         if(!forceUpdate
-        && currentPhiAngle == targetPhiAngle
+        && phiChange == 0
         && currentThetaAngle == targetThetaAngle
         && currentDistance == targetDistance
         && !delay.isReached()) {
             return;
         }
         
-        if(currentPhiAngle > targetPhiAngle) {
-            currentPhiAngle--;
-        } else if(currentPhiAngle < targetPhiAngle) {
+        if(phiChange > 0) {
             currentPhiAngle++;
+            phiChange--;
+        } else {
+            currentPhiAngle--;
+            phiChange++;
+        }
+
+        if(currentPhiAngle < 0) {
+            currentPhiAngle += 360;
+        } else if(currentPhiAngle > 360) {
+            currentPhiAngle -= 360;
         }
         
         if(currentThetaAngle > targetThetaAngle) {
@@ -152,7 +167,7 @@ public class Cam {
         cam.setLocation(targetPos.add(new Vector3f(x, y, z)));
         cam.lookAt(targetPos, Vector3f.UNIT_Y);
     }
-    
+
     /**
      * This internal class handles the delay of the camera's movement (to not
      * move the position with every frame).
