@@ -3,6 +3,7 @@ package com.kluckerz.editor;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -118,6 +119,13 @@ public class Editor implements ActionListener {
                 case CAM_TOP_VIEW_ON:
                 case CAM_TOP_VIEW_OFF:
                     moveCamera(kc);
+                    break;
+                case INSERT_OBJECT:
+                    Vector3f cursorPos = cursor.getNode().getLocalTranslation();
+                    Node object = (Node)app.getAssetManager().loadModel(
+                            "Models/Elements/Simple.j3o");
+                    object.setLocalTranslation(cursorPos);
+                    app.getRootNode().attachChild(object);
                     break;
             }
         }

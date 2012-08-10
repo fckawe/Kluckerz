@@ -31,7 +31,8 @@ public class Cursor {
         this.app = app;
         node = createNode();
         
-        BoundingBox bb = getBoundingBox(node);
+        Node dummy = createDummySimpleElement();
+        BoundingBox bb = getBoundingBox(dummy);
         sizeX = bb == null ? 0 : bb.getXExtent() * 2;
         sizeY = bb == null ? 0 : bb.getYExtent() * 2;
         sizeZ = bb == null ? 0 : bb.getZExtent() * 2;
@@ -39,7 +40,12 @@ public class Cursor {
     
     private Node createNode() {
         return (Node)app.getAssetManager().loadModel(
-                "Models/BlockSimple/BlockSimple.j3o");
+                "Models/Cursor/Cursor.j3o");
+    }
+    
+    private Node createDummySimpleElement() {
+        return (Node)app.getAssetManager().loadModel(
+                "Models/Elements/Simple.j3o");
     }
     
     private BoundingBox getBoundingBox(final Node node) {

@@ -22,6 +22,9 @@ public enum KeyboardControl {
 
     /** The key to move the cursor eastward. */
     CURSOR_EAST(KeyInput.KEY_D),
+    
+    /** The key to insert an object/element. */
+    INSERT_OBJECT(KeyInput.KEY_SPACE),
 
     /** The key to turn the camera clockwise. */
     TURN_CAM_CLOCKWISE(KeyInput.KEY_NUMPAD4),
@@ -40,7 +43,7 @@ public enum KeyboardControl {
 
     /** The key to deactivate the camera top view. */
     CAM_TOP_VIEW_OFF(KeyInput.KEY_PGDN);
-        
+    
     private KeyTrigger trigger;
         
     private int key;

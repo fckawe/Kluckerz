@@ -13,6 +13,14 @@ import com.kluckerz.Direction;
  */
 public class Cam {
     
+    private static final float DEFAULT_DISTANCE = 25f;
+    
+    private static final float DISTANCE_STEP_SIZE = 5f;
+    
+    private static final float MINIMUM_DISTANCE = 10f;
+    
+    private static final int DEFAULT_DELAY = 4;
+    
     private Camera cam;
     
     private Node target;
@@ -44,11 +52,11 @@ public class Cam {
         
         currentPhiAngle = 0;
         phiChange = 0;
-        currentDistance = 50;
+        currentDistance = DEFAULT_DISTANCE;
         targetDistance = currentDistance;
         currentThetaAngle = 0;
         targetThetaAngle = currentThetaAngle;
-        delay = new Delay(4);
+        delay = new Delay(DEFAULT_DELAY);
     }
     
     /**
@@ -69,8 +77,8 @@ public class Cam {
      * Zoom the camera view in - towards the observed target.
      */
     public void zoomIn() {
-        if(currentDistance > 10) {
-            targetDistance = currentDistance - 5;
+        if(currentDistance > MINIMUM_DISTANCE) {
+            targetDistance = currentDistance - DISTANCE_STEP_SIZE;
         }
     }
     
@@ -78,7 +86,7 @@ public class Cam {
      * Zoom the camera view out - away from the observed target.
      */
     public void zoomOut() {
-        targetDistance = currentDistance + 5;
+        targetDistance = currentDistance + DISTANCE_STEP_SIZE;
     }
     
     /**
