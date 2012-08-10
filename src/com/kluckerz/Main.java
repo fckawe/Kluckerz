@@ -1,7 +1,11 @@
 package com.kluckerz;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.system.AppSettings;
 import com.kluckerz.editor.Editor;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  * Main class of the game.
@@ -14,6 +18,29 @@ public class Main extends SimpleApplication {
     public static void main(final String[] args) {
         Main app = new Main();
         app.start();
+    }
+    
+    @Override
+    public void setSettings(AppSettings settings) {
+        settings.setTitle("Kluckerz");
+        BufferedImage[] icons = getApplicationIcons();
+        settings.setIcons(icons);
+        
+        super.setSettings(settings);
+    }
+    
+    private BufferedImage[] getApplicationIcons() {
+        try {
+            // TODO: find a better way to find the icons
+            return new BufferedImage[] {
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-128.png")),
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-32.png")),
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-16.png"))
+            };
+        } catch(IOException ioException) {
+            // TODO: log error
+            return null;
+        }
     }
 
     @Override
