@@ -26,7 +26,7 @@ public enum Direction {
                     case SOUTH:
                         return WEST;
                     case WEST:
-                        return NORTH:
+                        return NORTH;
                 }
             case SOUTH:
                 switch(this) {
@@ -37,7 +37,7 @@ public enum Direction {
                     case SOUTH:
                         return NORTH;
                     case WEST:
-                        return EAST:
+                        return EAST;
                 }
                 break;
             case WEST:
@@ -49,7 +49,7 @@ public enum Direction {
                     case SOUTH:
                         return EAST;
                     case WEST:
-                        return SOUTH:
+                        return SOUTH;
                 }
                 break;
         }

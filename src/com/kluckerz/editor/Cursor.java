@@ -5,6 +5,7 @@ import com.jme3.bounding.BoundingBox;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.kluckerz.Direction;
 
 /**
  *
@@ -64,16 +65,16 @@ public class Cursor {
     public void moveRelative(final Direction direction, final Direction camView) {
         Direction moveDirection = direction.translateFromView(camView);
         switch(moveDirection) {
-            case Direction.NORTH:
+            case NORTH:
                 moveNorth();
                 break;
-            case Direction.EAST:
+            case EAST:
                 moveEast();
                 break;
-            case Direction.SOUTH:
+            case SOUTH:
                 moveSouth();
                 break;
-            case Direction.WEST:
+            case WEST:
                 moveWest();
                 break;
         }
@@ -97,7 +98,7 @@ public class Cursor {
      * Moves the cursor northward by one cursor z size.
      */
     public void moveNorth() {
-        move(0, 0, sizeZ * -1, 0);
+        move(0, 0, sizeZ * -1);
     }
 
     /**
@@ -111,7 +112,7 @@ public class Cursor {
      * Moves the cursor southward by one cursor z size.
      */
     public void moveSouth() {
-        move(0, 0, sizeZ, 0);
+        move(0, 0, sizeZ);
     }
     
     /**

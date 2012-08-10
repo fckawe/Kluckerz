@@ -6,6 +6,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.kluckerz.Direction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class Editor implements ActionListener {
         camera = createCamera(cursorNode);
         
         initKeyboardControls();
+        
+        app.getFlyByCamera().setEnabled(false);
     }
     
     private Cursor createCursor() {

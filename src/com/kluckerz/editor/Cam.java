@@ -133,7 +133,7 @@ public class Cam {
         if(phiChange > 0) {
             currentPhiAngle++;
             phiChange--;
-        } else {
+        } else if(phiChange < 0) {
             currentPhiAngle--;
             phiChange++;
         }

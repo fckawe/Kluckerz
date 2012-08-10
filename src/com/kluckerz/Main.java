@@ -26,6 +26,7 @@ public class Main extends SimpleApplication {
         return new Editor(this);
     }
     
+    @Override
     public void simpleUpdate(final float f) {
         editor.update();
     }
