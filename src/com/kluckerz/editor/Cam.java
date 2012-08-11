@@ -17,7 +17,7 @@ public class Cam {
     
     private static final float DISTANCE_STEP_SIZE = 5f;
     
-    private static final float MINIMUM_DISTANCE = 10f;
+    private static final float MINIMUM_DISTANCE = 5f;
     
     private static final int DEFAULT_DELAY = 4;
     

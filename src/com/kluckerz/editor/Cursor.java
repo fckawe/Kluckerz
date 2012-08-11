@@ -10,7 +10,8 @@ import com.kluckerz.lmnts.AbstractElement;
 import java.util.List;
 
 /**
- *
+ * The editing cursor - the frame of a cube which can be moved through the
+ * world in order to insert, change and remove elements.
  * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public class Cursor {
@@ -40,6 +41,9 @@ public class Cursor {
         sizeX = bb == null ? 0 : bb.getXExtent() * 2;
         sizeY = bb == null ? 0 : bb.getYExtent() * 2;
         sizeZ = bb == null ? 0 : bb.getZExtent() * 2;
+        
+        Vector3f pos = node.getLocalTranslation();
+        node.setLocalTranslation(pos.add(0, sizeY / 2, 0));
     }
     
     private Node createNode() {
@@ -65,6 +69,16 @@ public class Cursor {
      */
     public Node getNode() {
         return node;
+    }
+    
+    /**
+     * Returns the cursor's insert position (for inserting elements).
+     * @return The position for new elements.
+     */
+    public Vector3f getInsertPos() {
+        Vector3f pos = node.getLocalTranslation();
+        Vector3f x = new Vector3f(-0.05f, -0.05f, 0);
+        return pos.add(x);
     }
 
     /**
@@ -132,11 +146,15 @@ public class Cursor {
         move(sizeX * -1, 0, 0);
     }
     
+    public void update() {
+        selectedLmnt = findElementOnCursor();
+    }
+    
     private void move(final float x, final float y, final float z) {
         Vector3f pos = node.getLocalTranslation();
         Vector3f newPos = pos.add(x, y, z);
         node.setLocalTranslation(newPos);
-        selectedLmnt = findElementOnCursor();
+        update();
     }
     
     private AbstractElement findElementOnCursor() {

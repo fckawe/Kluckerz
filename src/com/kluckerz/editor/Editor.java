@@ -2,6 +2,8 @@ package com.kluckerz.editor;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.light.AmbientLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
@@ -41,18 +43,16 @@ public class Editor implements ActionListener {
     public void start() {
         cursor = createCursor();
         Node cursorNode = cursor.getNode();
-        app.getRootNode().attachChild(cursorNode);
-        
-        cursor.moveUp();
+        app.getRootNodeWrapper().attachChild(cursorNode);
         
         scene = createScene();
-        app.getRootNode().attachChild(scene);
+        app.getRootNodeWrapper().attachChild(scene);
         
         camera = createCamera(cursorNode);
+        app.getFlyByCamera().setEnabled(false);
         
         initKeyboardControls();
-        
-        app.getFlyByCamera().setEnabled(false);
+        setupLight();
     }
     
     private Cursor createCursor() {
@@ -79,6 +79,12 @@ public class Editor implements ActionListener {
             ids.add(id);
         }
         inputManager.addListener(this, ids.toArray(new String[0]));
+    }
+    
+    private void setupLight() {
+        AmbientLight light = new AmbientLight();
+        light.setColor(ColorRGBA.White.mult(1.3f));
+        app.getRootNodeWrapper().addLight(light);
     }
     
     /**
@@ -126,6 +132,7 @@ public class Editor implements ActionListener {
                 case INSERT_ELEMENT:
                     if(!cursorHasElementSelected()) {
                         insertElement();
+                        cursor.update();
                     }
                     break;
                 case TURN_ELEMENT_X_CW:
@@ -194,10 +201,10 @@ public class Editor implements ActionListener {
     }
     
     private void insertElement() {
-        Vector3f cursorPos = cursor.getNode().getLocalTranslation();
         AbstractElement lmnt = new SimpleElement(app.getAssetManager());
         Node lmntNode = lmnt.getNode();
-        lmntNode.setLocalTranslation(cursorPos);
+        Vector3f insertPos = cursor.getInsertPos();
+        lmntNode.setLocalTranslation(insertPos);
         app.getRootNodeWrapper().attachChild(lmnt);
     }
     

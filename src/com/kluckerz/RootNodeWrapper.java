@@ -1,6 +1,8 @@
 package com.kluckerz;
 
+import com.jme3.light.Light;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.kluckerz.lmnts.AbstractElement;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +38,11 @@ public class RootNodeWrapper {
     }
     
     /**
-     * Attaches a child node to this root node.
-     * @param node The child node to attach.
+     * Attaches a child to this root node.
+     * @param spatial The child to attach.
      */
-    public void attachChild(final Node node) {
-        this.node.attachChild(node);
+    public void attachChild(final Spatial spatial) {
+        this.node.attachChild(spatial);
     }
     
     /**
@@ -50,6 +52,14 @@ public class RootNodeWrapper {
     public void attachChild(final AbstractElement lmnt) {
         lmnts.add(lmnt);
         this.node.attachChild(lmnt.getNode());
+    }
+    
+    /**
+     * Adds a light to the wrapped root node.
+     * @param light The light to add.
+     */
+    public void addLight(final Light light) {
+        this.node.addLight(light);
     }
     
     /**
