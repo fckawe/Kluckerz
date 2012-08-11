@@ -23,9 +23,27 @@ public enum KeyboardControl {
     /** The key to move the cursor eastward. */
     CURSOR_EAST(KeyInput.KEY_D),
     
-    /** The key to insert an object/element. */
-    INSERT_OBJECT(KeyInput.KEY_SPACE),
-
+    /** The key to insert an element. */
+    INSERT_ELEMENT(KeyInput.KEY_SPACE),
+    
+    /** The key to turn the selected element clockwise on x-axis. */
+    TURN_ELEMENT_X_CW(KeyInput.KEY_1),
+    
+    /** The key to turn the selected element counter-clockwise on x-axis. */
+    TURN_ELEMENT_X_CCW(KeyInput.KEY_2),
+    
+    /** The key to turn the selected element clockwise on y-axis. */
+    TURN_ELEMENT_Y_CW(KeyInput.KEY_3),
+    
+    /** The key to turn the selected element counter-clockwise on y-axis. */
+    TURN_ELEMENT_Y_CCW(KeyInput.KEY_4),
+    
+    /** The key to turn the selected element clockwise on z-axis. */
+    TURN_ELEMENT_Z_CW(KeyInput.KEY_5),
+    
+    /** The key to turn the selected element counter-clockwise on z-axis. */
+    TURN_ELEMENT_Z_CCW(KeyInput.KEY_6),
+    
     /** The key to turn the camera clockwise. */
     TURN_CAM_CLOCKWISE(KeyInput.KEY_NUMPAD4),
 

@@ -13,8 +13,10 @@ import javax.imageio.ImageIO;
  */
 public class Main extends SimpleApplication {
     
+    private RootNodeWrapper rootNodeWrapper;
+    
     private Editor editor;
-
+    
     public static void main(final String[] args) {
         Main app = new Main();
         app.start();
@@ -45,8 +47,17 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        rootNodeWrapper = createRootNodeWrapper();
         editor = createEditor();
         editor.start();
+    }
+    
+    protected RootNodeWrapper createRootNodeWrapper() {
+        return new RootNodeWrapper(rootNode);
+    }
+    
+    public RootNodeWrapper getRootNodeWrapper() {
+        return rootNodeWrapper;
     }
     
     protected Editor createEditor() {
@@ -54,7 +65,7 @@ public class Main extends SimpleApplication {
     }
     
     @Override
-    public void simpleUpdate(final float f) {
+    public void simpleUpdate(final float tpf) {
         editor.update();
     }
     

@@ -1,6 +1,5 @@
 package com.kluckerz.editor;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.math.Vector3f;
@@ -8,6 +7,9 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.kluckerz.Direction;
+import com.kluckerz.Main;
+import com.kluckerz.lmnts.AbstractElement;
+import com.kluckerz.lmnts.SimpleElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class Editor implements ActionListener {
     
-    private SimpleApplication app;
+    private Main app;
     
     private Cursor cursor;
     
@@ -29,7 +31,7 @@ public class Editor implements ActionListener {
      * Creates a new editor.
      * @param app The main application.
      */
-    public Editor(final SimpleApplication app) {
+    public Editor(final Main app) {
         this.app = app;
     }
     
@@ -85,6 +87,7 @@ public class Editor implements ActionListener {
      */
     public void update() {
         camera.update();
+        app.getRootNodeWrapper().update();
     }
     
     /**
@@ -120,12 +123,20 @@ public class Editor implements ActionListener {
                 case CAM_TOP_VIEW_OFF:
                     moveCamera(kc);
                     break;
-                case INSERT_OBJECT:
-                    Vector3f cursorPos = cursor.getNode().getLocalTranslation();
-                    Node object = (Node)app.getAssetManager().loadModel(
-                            "Models/Elements/Simple.j3o");
-                    object.setLocalTranslation(cursorPos);
-                    app.getRootNode().attachChild(object);
+                case INSERT_ELEMENT:
+                    if(!cursorHasElementSelected()) {
+                        insertElement();
+                    }
+                    break;
+                case TURN_ELEMENT_X_CW:
+                case TURN_ELEMENT_X_CCW:
+                case TURN_ELEMENT_Y_CW:
+                case TURN_ELEMENT_Y_CCW:
+                case TURN_ELEMENT_Z_CW:
+                case TURN_ELEMENT_Z_CCW:
+                    if(cursorHasElementSelected()) {
+                        turnSelectedElement(kc);
+                    }
                     break;
             }
         }
@@ -176,6 +187,43 @@ public class Editor implements ActionListener {
                 camera.setTopView(false);
                 break;
         }
+    }
+    
+    private boolean cursorHasElementSelected() {
+        return cursor.getSelectedElement() != null;
+    }
+    
+    private void insertElement() {
+        Vector3f cursorPos = cursor.getNode().getLocalTranslation();
+        AbstractElement lmnt = new SimpleElement(app.getAssetManager());
+        Node lmntNode = lmnt.getNode();
+        lmntNode.setLocalTranslation(cursorPos);
+        app.getRootNodeWrapper().attachChild(lmnt);
+    }
+    
+    private void turnSelectedElement(final KeyboardControl kc) {
+        AbstractElement lmnt = cursor.getSelectedElement();
+        switch(kc) {
+            case TURN_ELEMENT_X_CW:
+                lmnt.rotateXClockwise();
+                break;
+            case TURN_ELEMENT_X_CCW:
+                lmnt.rotateXCounterClockwise();
+                break;
+            case TURN_ELEMENT_Y_CW:
+                lmnt.rotateYClockwise();
+                break;
+            case TURN_ELEMENT_Y_CCW:
+                lmnt.rotateYCounterClockwise();
+                break;
+            case TURN_ELEMENT_Z_CW:
+                lmnt.rotateZClockwise();
+                break;
+            case TURN_ELEMENT_Z_CCW:
+                lmnt.rotateZCounterClockwise();
+                break;
+        }
+        app.getRootNodeWrapper().addAnimatingElement(lmnt);
     }
     
 }

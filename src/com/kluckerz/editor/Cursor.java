@@ -1,11 +1,13 @@
 package com.kluckerz.editor;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.kluckerz.Direction;
+import com.kluckerz.Main;
+import com.kluckerz.lmnts.AbstractElement;
+import java.util.List;
 
 /**
  *
@@ -13,7 +15,7 @@ import com.kluckerz.Direction;
  */
 public class Cursor {
     
-    private SimpleApplication app;
+    private Main app;
     
     private Node node;
     
@@ -23,16 +25,18 @@ public class Cursor {
 
     private float sizeZ;
     
+    private AbstractElement selectedLmnt;
+    
     /**
      * Creates a new editing cursor object.
      * @param app The main application.
      */
-    public Cursor(final SimpleApplication app) {
+    public Cursor(final Main app) {
         this.app = app;
         node = createNode();
         
-        Node dummy = createDummySimpleElement();
-        BoundingBox bb = getBoundingBox(dummy);
+        Node boundingNode = createBoundingNode();
+        BoundingBox bb = getBoundingBox(boundingNode);
         sizeX = bb == null ? 0 : bb.getXExtent() * 2;
         sizeY = bb == null ? 0 : bb.getYExtent() * 2;
         sizeZ = bb == null ? 0 : bb.getZExtent() * 2;
@@ -43,7 +47,7 @@ public class Cursor {
                 "Models/Cursor/Cursor.j3o");
     }
     
-    private Node createDummySimpleElement() {
+    private Node createBoundingNode() {
         return (Node)app.getAssetManager().loadModel(
                 "Models/Elements/Simple.j3o");
     }
@@ -132,6 +136,26 @@ public class Cursor {
         Vector3f pos = node.getLocalTranslation();
         Vector3f newPos = pos.add(x, y, z);
         node.setLocalTranslation(newPos);
+        selectedLmnt = findElementOnCursor();
+    }
+    
+    private AbstractElement findElementOnCursor() {
+        List<AbstractElement> elements = app.getRootNodeWrapper().getElements();
+        for(AbstractElement element : elements) {
+            BoundingBox cbb = (BoundingBox)node.getWorldBound();
+            cbb.setXExtent(0.01f);
+            cbb.setYExtent(0.01f);
+            cbb.setZExtent(0.01f);
+            BoundingBox obb = (BoundingBox)element.getNode().getWorldBound();
+            if(cbb.intersects(obb)) {
+                return element;
+            }
+        }
+        return null;
+    }
+    
+    public AbstractElement getSelectedElement() {
+        return selectedLmnt;
     }
     
 }
