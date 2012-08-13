@@ -1,13 +1,21 @@
 package com.kluckerz.editor;
 
+import com.jme3.asset.TextureKey;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.light.AmbientLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.shape.Sphere.TextureMode;
+import com.jme3.texture.Texture;
 import com.kluckerz.Direction;
 import com.kluckerz.Main;
 import com.kluckerz.lmnts.AbstractElement;
@@ -29,6 +37,8 @@ public class Editor implements ActionListener {
     
     private Cam camera;
     
+    private BulletAppState bulletAppState;
+    
     /**
      * Creates a new editor.
      * @param app The main application.
@@ -41,6 +51,9 @@ public class Editor implements ActionListener {
      * Start the editor.
      */
     public void start() {
+        bulletAppState = new BulletAppState();
+        app.getStateManager().attach(bulletAppState);
+                    
         cursor = createCursor();
         Node cursorNode = cursor.getNode();
         app.getRootNodeWrapper().attachChild(cursorNode);
@@ -62,6 +75,9 @@ public class Editor implements ActionListener {
     private Spatial createScene() {
         Spatial sceneModel = app.getAssetManager().loadModel("Scenes/TestScene.j3o");
         sceneModel.setLocalScale(2f);
+        RigidBodyControl rbc = new RigidBodyControl(0f);
+        sceneModel.addControl(rbc);
+        bulletAppState.getPhysicsSpace().add(rbc);
         return sceneModel;
     }
     
@@ -90,10 +106,12 @@ public class Editor implements ActionListener {
     /**
      * Update the editor. Usually called per frame by the application's update
      * method.
+     * @param tpf
      */
-    public void update() {
+    public void update(final float tpf) {
         camera.update();
         app.getRootNodeWrapper().update();
+        bulletAppState.getPhysicsSpace().update(tpf);
     }
     
     /**
@@ -144,6 +162,24 @@ public class Editor implements ActionListener {
                     if(cursorHasElementSelected()) {
                         turnSelectedElement(kc);
                     }
+                    break;
+                case TESTER:
+                    // TODO: falling ball - only for testing physics
+                    Material stone_mat = new Material(app.getAssetManager(),
+                            "Common/MatDefs/Misc/Unshaded.j3md");
+                    TextureKey key2 = new TextureKey("Textures/icon-32.png");
+                    key2.setGenerateMips(true);
+                    Texture tex2 = app.getAssetManager().loadTexture(key2);
+                    stone_mat.setTexture("ColorMap", tex2);
+                    Sphere sphere = new Sphere(32, 32, 0.4f, true, false);
+                    sphere.setTextureMode(TextureMode.Projected);
+                    Geometry ball_geo = new Geometry("falling ball", sphere);
+                    ball_geo.setMaterial(stone_mat);
+                    ball_geo.setLocalTranslation(cursor.getInsertPos());
+                    app.getRootNodeWrapper().attachChild(ball_geo);
+                    RigidBodyControl ball_phy = new RigidBodyControl(1f);
+                    ball_geo.addControl(ball_phy);
+                    bulletAppState.getPhysicsSpace().add(ball_phy);
                     break;
             }
         }
@@ -206,6 +242,7 @@ public class Editor implements ActionListener {
         Vector3f insertPos = cursor.getInsertPos();
         lmntNode.setLocalTranslation(insertPos);
         app.getRootNodeWrapper().attachChild(lmnt);
+        lmnt.addPhysics(bulletAppState);
     }
     
     private void turnSelectedElement(final KeyboardControl kc) {

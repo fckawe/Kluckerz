@@ -1,8 +1,15 @@
 package com.kluckerz.lmnts;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.Control;
 
 /**
  * Generic element class.
@@ -12,23 +19,42 @@ public abstract class AbstractElement {
     
     private Node node;
     
+    private Spatial spatial;
+    
     private int rotationXChange;
     
     private int rotationYChange;
     
     private int rotationZChange;
     
+    private Control control;
+    
     /**
      * Creates a new generic element.
      * @param assetManager The application's assetmanager, used to load models.
      */
     public AbstractElement(final AssetManager assetManager) {
-        node = createNode(assetManager);
+        spatial = createNode(assetManager);
+        node = (Node)spatial;
     }
     
-    private Node createNode(final AssetManager assetManager) {
+    private Spatial createNode(final AssetManager assetManager) {
         String modelPath = getModelPath();
-        return (Node)assetManager.loadModel(modelPath);
+        Spatial s = assetManager.loadModel(modelPath);
+        // TODO: dummy material - change later
+        Material material = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        s.setMaterial(material);
+        return s;
+    }
+    
+    public void addPhysics(final BulletAppState bulletAppState) {
+        CollisionShape cs = CollisionShapeFactory.createMeshShape(spatial);
+        RigidBodyControl rbc = new RigidBodyControl(cs, 5f);
+        rbc.setKinematic(true);
+        control = rbc;
+        node.addControl(control);
+        bulletAppState.getPhysicsSpace().add(control);
     }
     
     /**

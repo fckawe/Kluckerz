@@ -66,7 +66,7 @@ public class Main extends SimpleApplication {
     
     @Override
     public void simpleUpdate(final float tpf) {
-        editor.update();
+        editor.update(tpf);
     }
     
 }

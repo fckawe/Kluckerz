@@ -4,6 +4,9 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 
 public enum KeyboardControl {
+    
+    // TODO: temporary test key
+    TESTER(KeyInput.KEY_T),
 
     /** The key to move the cursor up. */
     CURSOR_UP(KeyInput.KEY_R),
