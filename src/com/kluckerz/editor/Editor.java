@@ -1,5 +1,6 @@
 package com.kluckerz.editor;
 
+import com.kluckerz.editor.hud.HUD;
 import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -39,6 +40,8 @@ public class Editor implements ActionListener {
     
     private BulletAppState bulletAppState;
     
+    private HUD hud;
+    
     /**
      * Creates a new editor.
      * @param app The main application.
@@ -64,7 +67,10 @@ public class Editor implements ActionListener {
         camera = createCamera(cursorNode);
         app.getFlyByCamera().setEnabled(false);
         
-        initKeyboardControls();
+        hud = createHUD();
+        hud.init(app, this);
+        
+        initKeyboardControls(hud);
         setupLight();
     }
     
@@ -86,7 +92,7 @@ public class Editor implements ActionListener {
         return new Cam(cam, target);
     }
     
-    private void initKeyboardControls() {
+    private void initKeyboardControls(final HUD hud) {
         InputManager inputManager = app.getInputManager();
         List<String> ids = new ArrayList<String>();
         for(KeyboardControl kc : KeyboardControl.values()) {
@@ -99,8 +105,12 @@ public class Editor implements ActionListener {
     
     private void setupLight() {
         AmbientLight light = new AmbientLight();
-        light.setColor(ColorRGBA.White.mult(1.3f));
+        light.setColor(ColorRGBA.White.mult(0.7f));
         app.getRootNodeWrapper().addLight(light);
+    }
+    
+    private HUD createHUD() {
+        return new HUD();
     }
     
     /**
@@ -167,7 +177,7 @@ public class Editor implements ActionListener {
                     // TODO: falling ball - only for testing physics
                     Material stone_mat = new Material(app.getAssetManager(),
                             "Common/MatDefs/Misc/Unshaded.j3md");
-                    TextureKey key2 = new TextureKey("Textures/icon-32.png");
+                    TextureKey key2 = new TextureKey("Interface/Icons/icon-32.png");
                     key2.setGenerateMips(true);
                     Texture tex2 = app.getAssetManager().loadTexture(key2);
                     stone_mat.setTexture("ColorMap", tex2);

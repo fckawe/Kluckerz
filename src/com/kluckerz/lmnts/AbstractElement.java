@@ -1,6 +1,7 @@
 package com.kluckerz.lmnts;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -10,6 +11,7 @@ import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
+import com.jme3.texture.Texture;
 
 /**
  * Generic element class.
@@ -43,7 +45,14 @@ public abstract class AbstractElement {
         Spatial s = assetManager.loadModel(modelPath);
         // TODO: dummy material - change later
         Material material = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
+                // "Common/MatDefs/Misc/Unshaded.j3md");
+                "Common/MatDefs/Light/Lighting.j3md");
+        /*
+        TextureKey key2 = new TextureKey("Interface/Icons/icon-32.png");
+        key2.setGenerateMips(true);
+        Texture tex2 = assetManager.loadTexture(key2);
+        material.setTexture("ColorMap", tex2);
+         */
         s.setMaterial(material);
         return s;
     }

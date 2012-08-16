@@ -19,6 +19,7 @@ public class Main extends SimpleApplication {
     
     public static void main(final String[] args) {
         Main app = new Main();
+        app.setPauseOnLostFocus(false);
         app.start();
     }
     
@@ -35,9 +36,9 @@ public class Main extends SimpleApplication {
         try {
             // TODO: find a better way to find the icons
             return new BufferedImage[] {
-                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-128.png")),
-                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-32.png")),
-                ImageIO.read(Main.class.getResourceAsStream("../../Interface/icon-16.png"))
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/Icons/icon-128.png")),
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/Icons/icon-32.png")),
+                ImageIO.read(Main.class.getResourceAsStream("../../Interface/Icons/icon-16.png"))
             };
         } catch(IOException ioException) {
             // TODO: log error

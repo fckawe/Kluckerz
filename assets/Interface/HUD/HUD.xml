@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty.xsd http://nifty-gui.sourceforge.net/nifty.xsd">
+    
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    
+    <resourceBundle id="hud" filename="Interface/Language/HUD" />
+    
+    <style id="hud-font">
+        <attributes font="Interface/Fonts/dejavu-sans-condensed-20.fnt" />
+    </style>
+    
+    <style id="hud-label" base="hud-font">
+        <attributes width="100%" color="#ffffff" />
+    </style>
+    
+    <controlDefinition name="cc">
+        <panel width="100%" height="39px" childLayout="horizontal">
+            <panel width="51px" childLayout="vertical">
+                <panel width="100%" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc-ul.png" />
+                    <image filename="Interface/HUD/Images/cc-back.png">
+                        <interact onClick="triggerCCBack()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc-ur.png" />
+                </panel>
+                <panel width="100%" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc-u.png" />
+                </panel>
+                <panel width="100%" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc-left.png">
+                        <interact onClick="triggerCCLeft()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc-mid.png" />
+                    <image filename="Interface/HUD/Images/cc-right.png">
+                        <interact onClick="triggerCCRight()" />
+                    </image>
+                </panel>
+                <panel width="100%" childLayout="horizontal">
+                    <image id="cam-control-l" filename="Interface/HUD/Images/cc-l.png" />
+                </panel>
+                <panel width="100%" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc-ll.png" />
+                    <image filename="Interface/HUD/Images/cc-fore.png">
+                        <interact onClick="triggerCCFore()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc-lr.png" />
+                </panel>
+            </panel>
+            <panel width="3px" />
+            <panel width="16px" childLayout="vertical">
+                <image filename="Interface/HUD/Images/cc-up.png">
+                    <interact onClick="triggerCCUp()" />
+                </image>
+                <panel height="1px" />
+                <image filename="Interface/HUD/Images/cc-down.png">
+                    <interact onClick="triggerCCDown()" />
+                </image>
+            </panel>
+        </panel>
+    </controlDefinition>
+    
+    <screen id="start" controller="com.kluckerz.editor.hud.HUD">
+        <layer childLayout="horizontal">
+            <panel id="hud-panel" width="75px" height="100%" childLayout="vertical" backgroundColor="#ffffff66">
+                <control name="label" style="hud-label" text="Camera" />
+                <control name="cc" id="cam-cc" controller="com.kluckerz.editor.hud.CamController" />
+                <panel height="10px" />
+                <control name="label" id="cursorControl" style="hud-label" text="Cursor" />
+                <control name="cc" id="cursor-cc" controller="com.kluckerz.editor.hud.CursorController" />
+            </panel>
+        </layer>
+    </screen>
+  
+</nifty>
