@@ -14,7 +14,7 @@ public class SimpleElement extends AbstractElement {
 
     @Override
     protected String getModelPath() {
-        return "Models/Elements/SimpleElement_x.j3o";
+        return "Models/Elements/Simple.j3o";
     }
 
     @Override

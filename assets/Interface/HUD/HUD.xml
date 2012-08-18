@@ -6,16 +6,17 @@
     
     <resourceBundle id="hud" filename="Interface/Language/HUD" />
     
-    <style id="hud-font">
-        <attributes font="Interface/Fonts/dejavu-sans-condensed-20.fnt" />
+    <style id="hud-header">
+        <attributes width="100%" color="#ffffff" font="Interface/Fonts/dejavu-sans-condensed-20.fnt" />
     </style>
     
-    <style id="hud-label" base="hud-font">
-        <attributes width="100%" color="#ffffff" />
+    <style id="hud-label">
+        <attributes width="100%" color="#ffffff" font="Interface/Fonts/dejavu-sans-condensed-15.fnt" />
     </style>
     
     <controlDefinition name="cc">
         <panel width="100%" height="39px" childLayout="horizontal">
+            <panel width="7px" />
             <panel width="51px" childLayout="vertical">
                 <panel width="100%" childLayout="horizontal">
                     <image filename="Interface/HUD/Images/cc-ul.png" />
@@ -60,14 +61,77 @@
         </panel>
     </controlDefinition>
     
+    <controlDefinition name="cc2">
+        <panel height="105px" childLayout="horizontal">
+            <panel width="23px" />
+            <panel childLayout="vertical">
+                <image filename="Interface/HUD/Images/cc2-u.png" />
+                <panel width="44px" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc2-l1.png">
+                        <interact onClick="triggerTurnYCCW()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc2-r1.png">
+                        <interact onClick="triggerTurnYCW()" />
+                    </image>
+                </panel>
+                <image filename="Interface/HUD/Images/cc2-mu.png" />
+                <panel width="44px" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc2-u2l.png" />
+                    <image filename="Interface/HUD/Images/cc2-u2.png">
+                        <interact onClick="triggerTurnXCW()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc2-u2r.png" />
+                </panel>
+                <panel width="44px" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc2-d2l.png" />
+                    <image filename="Interface/HUD/Images/cc2-d2.png">
+                        <interact onClick="triggerTurnXCCW()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc2-d2r.png" />
+                </panel>
+                <image filename="Interface/HUD/Images/cc2-ml.png" />
+                <panel width="44px" childLayout="horizontal">
+                    <image filename="Interface/HUD/Images/cc2-l3.png">
+                        <interact onClick="triggerTurnZCW()" />
+                    </image>
+                    <image filename="Interface/HUD/Images/cc2-r3.png">
+                        <interact onClick="triggerTurnZCCW()" />
+                    </image>
+                </panel>
+                <image filename="Interface/HUD/Images/cc2-l.png" />
+            </panel>
+        </panel>
+    </controlDefinition>
+    
     <screen id="start" controller="com.kluckerz.editor.hud.HUD">
-        <layer childLayout="horizontal">
-            <panel id="hud-panel" width="75px" height="100%" childLayout="vertical" backgroundColor="#ffffff66">
-                <control name="label" style="hud-label" text="Camera" />
-                <control name="cc" id="cam-cc" controller="com.kluckerz.editor.hud.CamController" />
-                <panel height="10px" />
-                <control name="label" id="cursorControl" style="hud-label" text="Cursor" />
-                <control name="cc" id="cursor-cc" controller="com.kluckerz.editor.hud.CursorController" />
+        <layer childLayout="center">
+            <panel id="hud-panel" width="90px" height="100%" align="right" childLayout="vertical">
+                <panel width="90px" height="20px" backgroundColor="#ffffff99" childLayout="center">
+                    <control id="hud-panel-showhide" name="label" style="hud-label" text="" />
+                    <interact onClick="triggerShowHideHUD()" />
+                </panel>
+                <panel id="hud-panel-control" width="90px" height="100%" childLayout="vertical" backgroundColor="#ffffff66">
+                    <panel height="10px" />
+                    <control name="label" style="hud-header" text="${hud.camera}" />
+                    <control name="cc" id="cam-cc" controller="com.kluckerz.editor.hud.CamController" />
+                    <panel height="10px" />
+                    <control name="label" id="cursorControl" style="hud-header" text="${hud.cursor}" />
+                    <control name="cc" id="cursor-cc" controller="com.kluckerz.editor.hud.CursorController" />
+                    <panel height="10px" />
+                    <control name="label" id="elementControl" style="hud-header" text="${hud.element}" />
+                    <control name="cc2" id="element-cc2" controller="com.kluckerz.editor.hud.ElementController" />
+                    <control name="label" id="insert-element" style="hud-label" text="${hud.insert}" controller="com.kluckerz.editor.hud.ElementController" visibleToMouse="true" backgroundColor="#000000ff">
+                        <interact onClick="triggerInsertElement()" />
+                    </control>
+                    <effect>
+                        <onEnabled name="fade" start="#0" end="#f" length="200" />
+                        <onDisabled name="fade" start="#f" end="#0" length="200" />
+                    </effect>
+                </panel>
+                <effect>
+                    <onStartScreen name="move" timeType="exp" factor="3.5" direction="right" mode="in" length="300" startDelay="800" inherit="true"/>
+                    <onEndScreen name="move" timeType="exp" factor="3.5" direction="right" mode="out" length="300" inherit="true"/>
+                </effect>
             </panel>
         </layer>
     </screen>

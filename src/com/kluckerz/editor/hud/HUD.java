@@ -10,8 +10,10 @@ import com.kluckerz.Main;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -23,11 +25,19 @@ public class HUD implements ScreenController {
     
     private ActionListener actionListener;
     
+    private Element hudPanelControl;
+    
+    private Element hudPanelShowHide;
+    
+    private ResourceBundle resourceBundle;
+    
     public HUD() {
     }
     
     public void init(final Main app, final ActionListener actionListener) {
         this.actionListener = actionListener;
+        
+        resourceBundle = ResourceBundle.getBundle("Interface/Language/HUD");
         
         AssetManager assetManager = app.getAssetManager();
         InputManager inputManager = app.getInputManager();
@@ -47,6 +57,11 @@ public class HUD implements ScreenController {
     public void bind(final Nifty nifty, final Screen screen) {
         linkControllerForElement(screen, "cam-cc");
         linkControllerForElement(screen, "cursor-cc");
+        linkControllerForElement(screen, "element-cc2");
+        linkControllerForElement(screen, "insert-element");
+        hudPanelControl = screen.findElementByName("hud-panel-control");
+        hudPanelShowHide = screen.findElementByName("hud-panel-showhide");
+        refreshSwitchLabel();
     }
     
     protected void linkControllerForElement(final Screen screen,
@@ -64,6 +79,26 @@ public class HUD implements ScreenController {
 
     @Override
     public void onEndScreen() {
+    }
+    
+    public void triggerShowHideHUD() {
+        if(hudPanelControl.isEnabled()) {
+            hudPanelControl.disable();
+        } else {
+            hudPanelControl.enable();
+        }
+        refreshSwitchLabel();
+    }
+    
+    protected void refreshSwitchLabel() {
+        String label = resourceBundle.getString("hud");
+        label += ": ";
+        if(hudPanelControl.isEnabled()) {
+            label += resourceBundle.getString("on");
+        } else {
+            label += resourceBundle.getString("off");
+        }
+        hudPanelShowHide.getRenderer(TextRenderer.class).setText(label);
     }
     
 }
