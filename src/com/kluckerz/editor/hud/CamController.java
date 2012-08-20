@@ -17,19 +17,19 @@ public class CamController extends AbstractController {
     }
     
     public void triggerCCBack() {
-        triggerEvent(KeyboardControl.ZOOM_CAM_IN);
-    }
-    
-    public void triggerCCFore() {
-        triggerEvent(KeyboardControl.ZOOM_CAM_OUT);
-    }
-    
-    public void triggerCCUp() {
         triggerEvent(KeyboardControl.CAM_TOP_VIEW_ON);
     }
     
-    public void triggerCCDown() {
+    public void triggerCCFore() {
         triggerEvent(KeyboardControl.CAM_TOP_VIEW_OFF);
+    }
+    
+    public void triggerCCUp() {
+        triggerEvent(KeyboardControl.ZOOM_CAM_IN);
+    }
+    
+    public void triggerCCDown() {
+        triggerEvent(KeyboardControl.ZOOM_CAM_OUT);
     }
 
 }
