@@ -113,14 +113,14 @@
                 <panel width="44px" childLayout="horizontal">
                     <image filename="Interface/HUD/Images/cc2-u2l.png" />
                     <image filename="Interface/HUD/Images/cc2-u2.png">
-                        <interact onClick="triggerTurnXCW()" />
+                        <interact onClick="triggerTurnXCCW()" />
                     </image>
                     <image filename="Interface/HUD/Images/cc2-u2r.png" />
                 </panel>
                 <panel width="44px" childLayout="horizontal">
                     <image filename="Interface/HUD/Images/cc2-d2l.png" />
                     <image filename="Interface/HUD/Images/cc2-d2.png">
-                        <interact onClick="triggerTurnXCCW()" />
+                        <interact onClick="triggerTurnXCW()" />
                     </image>
                     <image filename="Interface/HUD/Images/cc2-d2r.png" />
                 </panel>

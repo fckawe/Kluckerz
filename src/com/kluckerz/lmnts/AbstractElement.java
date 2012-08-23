@@ -1,17 +1,16 @@
 package com.kluckerz.lmnts;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.asset.TextureKey;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
-import com.jme3.texture.Texture;
 
 /**
  * Generic element class.
@@ -129,28 +128,34 @@ public abstract class AbstractElement {
      */
     public void updateAnimation() {
         if(rotationXChange > 0) {
-            node.rotate(1 * FastMath.DEG_TO_RAD, 0, 0);
+            stepRotate(FastMath.DEG_TO_RAD, 0, 0);
             rotationXChange -= 1;
         } else if(rotationXChange < 0) {
-            node.rotate(-1 * FastMath.DEG_TO_RAD, 0, 0);
+            stepRotate(-1 * FastMath.DEG_TO_RAD, 0, 0);
             rotationXChange += 1;
         }
         
         if(rotationYChange > 0) {
-            node.rotate(0, 1 * FastMath.DEG_TO_RAD, 0);
+            stepRotate(0, FastMath.DEG_TO_RAD, 0);
             rotationYChange -= 1;
         } else if(rotationYChange < 0) {
-            node.rotate(0, -1 * FastMath.DEG_TO_RAD, 0);
+            stepRotate(0, -1 * FastMath.DEG_TO_RAD, 0);
             rotationYChange += 1;
         }
         
         if(rotationZChange > 0) {
-            node.rotate(0, 0, 1 * FastMath.DEG_TO_RAD);
+            stepRotate(0, 0, FastMath.DEG_TO_RAD);
             rotationZChange -= 1;
         } else if(rotationZChange < 0) {
-            node.rotate(0, 0, -1 * FastMath.DEG_TO_RAD);
+            stepRotate(0, 0, -1 * FastMath.DEG_TO_RAD);
             rotationZChange += 1;
         }
+    }
+    
+    private void stepRotate(final float x, final float y, final float z) {
+        Quaternion r = new Quaternion(new float[] {x, y, z});
+        r.multLocal(node.getLocalRotation());
+        node.setLocalRotation(r);
     }
     
     @Override
