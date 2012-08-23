@@ -96,45 +96,37 @@
         </panel>
     </controlDefinition>
     
-    <controlDefinition name="cc2">
-        <panel height="105px" childLayout="horizontal">
-            <panel width="23px" />
-            <panel childLayout="vertical">
-                <image filename="Interface/HUD/Images/cc2-u.png" />
-                <panel width="44px" childLayout="horizontal">
-                    <image filename="Interface/HUD/Images/cc2-l1.png">
-                        <interact onClick="triggerTurnYCCW()" />
-                    </image>
-                    <image filename="Interface/HUD/Images/cc2-r1.png">
-                        <interact onClick="triggerTurnYCW()" />
-                    </image>
-                </panel>
-                <image filename="Interface/HUD/Images/cc2-mu.png" />
-                <panel width="44px" childLayout="horizontal">
-                    <image filename="Interface/HUD/Images/cc2-u2l.png" />
-                    <image filename="Interface/HUD/Images/cc2-u2.png">
-                        <interact onClick="triggerTurnXCCW()" />
-                    </image>
-                    <image filename="Interface/HUD/Images/cc2-u2r.png" />
-                </panel>
-                <panel width="44px" childLayout="horizontal">
-                    <image filename="Interface/HUD/Images/cc2-d2l.png" />
-                    <image filename="Interface/HUD/Images/cc2-d2.png">
-                        <interact onClick="triggerTurnXCW()" />
-                    </image>
-                    <image filename="Interface/HUD/Images/cc2-d2r.png" />
-                </panel>
-                <image filename="Interface/HUD/Images/cc2-ml.png" />
-                <panel width="44px" childLayout="horizontal">
-                    <image filename="Interface/HUD/Images/cc2-l3.png">
-                        <interact onClick="triggerTurnZCW()" />
-                    </image>
-                    <image filename="Interface/HUD/Images/cc2-r3.png">
-                        <interact onClick="triggerTurnZCCW()" />
-                    </image>
-                </panel>
-                <image filename="Interface/HUD/Images/cc2-l.png" />
+    <controlDefinition name="cc-element">
+        <panel childLayout="horizontal">
+            <panel width="4px" height="55px" />
+            <image filename="Interface/HUD/Images/cc-01.png" />
+            <panel childLayout="vertical" width="13px">
+                <image filename="Interface/HUD/Images/cc-02.png" />
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-03.png"
+                    fileHover="Interface/HUD/Images/cc-03-hover.png" trigger="triggerCCLeft()" />
+                <image filename="Interface/HUD/Images/cc-04.png" />
             </panel>
+            <panel childLayout="vertical" width="15px">
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-05.png"
+                    fileHover="Interface/HUD/Images/cc-05-hover.png" trigger="triggerCCUp()" height="20px" />
+                <image filename="Interface/HUD/Images/cc-06.png" />
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-07.png"
+                    fileHover="Interface/HUD/Images/cc-07-hover.png" trigger="triggerCCDown()" height="19px" />
+            </panel>
+            <panel childLayout="vertical" width="13px">
+                <image filename="Interface/HUD/Images/cc-08.png" />
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-09.png"
+                    fileHover="Interface/HUD/Images/cc-09-hover.png" trigger="triggerCCRight()" />
+                <image filename="Interface/HUD/Images/cc-10.png" />
+            </panel>
+            <image filename="Interface/HUD/Images/cc-11.png" />
+            <panel childLayout="vertical" width="14px">
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-12.png"
+                    fileHover="Interface/HUD/Images/cc-12-hover.png" trigger="triggerCCBack()" />
+                <control name="hud-control-image" file="Interface/HUD/Images/cc-13.png"
+                    fileHover="Interface/HUD/Images/cc-13-hover.png" trigger="triggerCCFore()" />
+            </panel>
+            <image filename="Interface/HUD/Images/cc-14.png" />
         </panel>
     </controlDefinition>
     
@@ -154,7 +146,7 @@
                     <control name="cc-cursor" id="cursor-cc" controller="com.kluckerz.editor.hud.CursorController" />
                     <panel height="10px" />
                     <control name="label" id="elementControl" style="hud-header" text="${hud.element}" />
-                    <control name="cc2" id="element-cc2" controller="com.kluckerz.editor.hud.ElementController" />
+                    <control name="cc-element" id="element-cc" controller="com.kluckerz.editor.hud.ElementController" />
                     <control name="label" id="insert-element" style="hud-label" text="${hud.insert}" controller="com.kluckerz.editor.hud.ElementController" visibleToMouse="true" backgroundColor="#000000ff">
                         <interact onClick="triggerInsertElement()" />
                     </control>

@@ -8,28 +8,28 @@ import com.kluckerz.editor.KeyboardControl;
  */
 public class ElementController extends AbstractController {
     
-    public void triggerTurnYCW() {
-        triggerEvent(KeyboardControl.TURN_ELEMENT_Y_CW);
-    }
-    
-    public void triggerTurnYCCW() {
+    public void triggerCCLeft() {
         triggerEvent(KeyboardControl.TURN_ELEMENT_Y_CCW);
     }
     
-    public void triggerTurnXCW() {
-        triggerEvent(KeyboardControl.TURN_ELEMENT_X_CW);
+    public void triggerCCRight() {
+        triggerEvent(KeyboardControl.TURN_ELEMENT_Y_CW);
     }
     
-    public void triggerTurnXCCW() {
-        triggerEvent(KeyboardControl.TURN_ELEMENT_X_CCW);
+    public void triggerCCBack() {
+        triggerEvent(KeyboardControl.TURN_ELEMENT_Z_CCW);
     }
     
-    public void triggerTurnZCW() {
+    public void triggerCCFore() {
         triggerEvent(KeyboardControl.TURN_ELEMENT_Z_CW);
     }
     
-    public void triggerTurnZCCW() {
-        triggerEvent(KeyboardControl.TURN_ELEMENT_Z_CCW);
+    public void triggerCCUp() {
+        triggerEvent(KeyboardControl.TURN_ELEMENT_X_CCW);
+    }
+    
+    public void triggerCCDown() {
+        triggerEvent(KeyboardControl.TURN_ELEMENT_X_CW);
     }
     
     public void triggerInsertElement() {

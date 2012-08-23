@@ -57,7 +57,7 @@ public class HUD implements ScreenController {
     public void bind(final Nifty nifty, final Screen screen) {
         linkControllerForElement(screen, "cam-cc");
         linkControllerForElement(screen, "cursor-cc");
-        linkControllerForElement(screen, "element-cc2");
+        linkControllerForElement(screen, "element-cc");
         linkControllerForElement(screen, "insert-element");
         hudPanelControl = screen.findElementByName("hud-panel-control");
         hudPanelShowHide = screen.findElementByName("hud-panel-showhide");
