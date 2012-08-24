@@ -14,6 +14,7 @@ public class ElementLoader {
         
         list.add(new SimpleElement());
         list.add(new CurveElement());
+        list.add(new TPieceElement());
         // TODO: load more by service
         
         return list;
