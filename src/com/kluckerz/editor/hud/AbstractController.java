@@ -11,7 +11,7 @@ import de.lessvoid.xml.xpp3.Attributes;
 import java.util.Properties;
 
 /**
- *
+ * Abstract controller class for HUD controls.
  * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public abstract class AbstractController implements Controller {
@@ -23,8 +23,12 @@ public abstract class AbstractController implements Controller {
     }
     
     protected void triggerEvent(final KeyboardControl kc) {
+        triggerEvent(kc.toString());
+    }
+    
+    protected void triggerEvent(final String actionCode) {
         if(actionListener != null) {
-            actionListener.onAction(kc.toString(), true, 0f);
+            actionListener.onAction(actionCode, true, 0f);
         }
     }
   

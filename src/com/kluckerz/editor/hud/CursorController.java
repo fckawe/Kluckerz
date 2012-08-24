@@ -3,7 +3,7 @@ package com.kluckerz.editor.hud;
 import com.kluckerz.editor.KeyboardControl;
 
 /**
- *
+ * Controller class for the HUD cursor controls.
  * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public class CursorController extends AbstractController {

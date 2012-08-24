@@ -7,12 +7,17 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.ViewPort;
 import com.kluckerz.Main;
+import com.kluckerz.lmnts.AbstractElement;
+import com.kluckerz.lmnts.ElementLoader;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.builder.ControlBuilder;
 import de.lessvoid.nifty.controls.Controller;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -58,7 +63,14 @@ public class HUD implements ScreenController {
         linkControllerForElement(screen, "cam-cc");
         linkControllerForElement(screen, "cursor-cc");
         linkControllerForElement(screen, "element-cc");
-        linkControllerForElement(screen, "insert-element");
+        linkControllerForElement(screen, "element-list");
+        
+        Element elementListPanel = screen.findElementByName("element-list");
+        List<Element> elements = getElementList(screen, elementListPanel);
+        for(Element e : elements) {
+            elementListPanel.add(e);
+        }
+        
         hudPanelControl = screen.findElementByName("hud-panel-control");
         hudPanelShowHide = screen.findElementByName("hud-panel-showhide");
         refreshSwitchLabel();
@@ -99,6 +111,34 @@ public class HUD implements ScreenController {
             label += resourceBundle.getString("off");
         }
         hudPanelShowHide.getRenderer(TextRenderer.class).setText(label);
+    }
+    
+    protected List<Element> getElementList(final Screen screen,
+            final Element panel) {
+        List<Element> list = new ArrayList<Element>();
+        
+        ElementLoader loader = new ElementLoader();
+        List<AbstractElement> elements = loader.loadAll();
+        
+        for(AbstractElement element : elements) {
+            final String label = element.getLabel();
+            final String elementClass = element.getClass().getName();
+            final String id = getElementIdByClassName(elementClass);
+            final String trigger = "triggerInsertElement(" + elementClass + ")";
+            
+            Element e = new ControlBuilder(id, "label") {{
+                    parameter("text", label);
+                    parameter("style", "hud-element-list-entry");
+                    interactOnClick(trigger);
+                }}.build(nifty, screen, panel);
+            list.add(e);
+        }
+        
+        return list;
+    }
+    
+    protected String getElementIdByClassName(final String className) {
+        return "element#" + className;
     }
     
 }

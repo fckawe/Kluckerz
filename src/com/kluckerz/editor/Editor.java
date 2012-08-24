@@ -20,7 +20,6 @@ import com.jme3.texture.Texture;
 import com.kluckerz.Direction;
 import com.kluckerz.Main;
 import com.kluckerz.lmnts.AbstractElement;
-import com.kluckerz.lmnts.SimpleElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,18 +125,27 @@ public class Editor implements ActionListener {
     
     /**
      * The action handler which handles the keyboard events.
-     * @param name The id of the fired action.
+     * @param actionId The id of the fired action.
      * @param isPressed True, if the key is pressed.
      * @param tpf 
      */
     @Override
-    public void onAction(final String name, final boolean isPressed,
+    public void onAction(final String actionId, final boolean isPressed,
             final float tpf) {
         if(!isPressed) {
             return;
         }
         
-        KeyboardControl kc = KeyboardControl.fromId(name);
+        String keyId = actionId;
+        String[] params = null;
+        int keyParamsSepPos = actionId.indexOf(':'); // TODO: Konstante
+        if(keyParamsSepPos > 0) {
+            keyId = actionId.substring(0, keyParamsSepPos);
+            String paramsStr = actionId.substring(keyParamsSepPos + 1);
+            params = paramsStr.split(","); // TODO: Konstante
+        }
+        
+        KeyboardControl kc = KeyboardControl.fromId(keyId);
         if(kc != null) {
             switch(kc) {
                 case CURSOR_UP:
@@ -158,8 +166,8 @@ public class Editor implements ActionListener {
                     moveCamera(kc);
                     break;
                 case INSERT_ELEMENT:
-                    if(!cursorHasElementSelected()) {
-                        insertElement();
+                    if(!cursorHasElementSelected() && params != null && params.length >= 1) {
+                        insertElement(params[0]);
                         cursor.update();
                     }
                     break;
@@ -246,13 +254,26 @@ public class Editor implements ActionListener {
         return cursor.getSelectedElement() != null;
     }
     
-    private void insertElement() {
-        AbstractElement lmnt = new SimpleElement(app.getAssetManager());
-        Node lmntNode = lmnt.getNode();
-        Vector3f insertPos = cursor.getInsertPos();
-        lmntNode.setLocalTranslation(insertPos);
-        app.getRootNodeWrapper().attachChild(lmnt);
-        lmnt.addPhysics(bulletAppState);
+    private void insertElement(final String elementClass) {
+        try {
+            Class cls = Class.forName(elementClass);
+            Object elementObj = cls.newInstance();
+            if(elementObj instanceof AbstractElement) {
+                AbstractElement lmnt = (AbstractElement)elementObj;
+                lmnt.init(app.getAssetManager());
+                Node lmntNode = lmnt.getNode();
+                Vector3f insertPos = cursor.getInsertPos();
+                lmntNode.setLocalTranslation(insertPos);
+                app.getRootNodeWrapper().attachChild(lmnt);
+                lmnt.addPhysics(bulletAppState);
+            }
+        } catch (ClassNotFoundException e) {
+            // TODO: Fehlerbehandlung
+        } catch (IllegalAccessException e) {
+            // TODO: Fehlerbehandlung
+        } catch (InstantiationException e) {
+            // TODO: Fehlerbehandlung
+        }
     }
     
     private void turnSelectedElement(final KeyboardControl kc) {

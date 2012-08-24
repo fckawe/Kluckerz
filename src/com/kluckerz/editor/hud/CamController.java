@@ -3,7 +3,7 @@ package com.kluckerz.editor.hud;
 import com.kluckerz.editor.KeyboardControl;
 
 /**
- *
+ * Controller class for the HUD camera controls.
  * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public class CamController extends AbstractController {
@@ -31,5 +31,5 @@ public class CamController extends AbstractController {
     public void triggerCCDown() {
         triggerEvent(KeyboardControl.ZOOM_CAM_OUT);
     }
-
+    
 }

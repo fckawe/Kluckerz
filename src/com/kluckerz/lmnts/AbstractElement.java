@@ -11,6 +11,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
+import java.util.ResourceBundle;
 
 /**
  * Generic element class.
@@ -32,9 +33,15 @@ public abstract class AbstractElement {
     
     /**
      * Creates a new generic element.
+     */
+    public AbstractElement() {
+    }
+    
+    /**
+     * Initializes the element.
      * @param assetManager The application's assetmanager, used to load models.
      */
-    public AbstractElement(final AssetManager assetManager) {
+    public void init(final AssetManager assetManager) {
         spatial = createNode(assetManager);
         node = (Node)spatial;
     }
@@ -161,6 +168,20 @@ public abstract class AbstractElement {
     @Override
     public String toString() {
         return getTypeName() + "[" + super.toString() + "]";
+    }
+    
+    protected ResourceBundle getResourceBundle() {
+        return ResourceBundle.getBundle("Interface/Language/BuiltInElements");
+    }
+    
+    protected String getLabelByResourceBundle(final String key) {
+        ResourceBundle rb = getResourceBundle();
+        return rb.getString(key);
+    }
+    
+    public String getLabel() {
+        String typeName = getTypeName();
+        return getLabelByResourceBundle(typeName);
     }
     
     protected abstract String getModelPath();

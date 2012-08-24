@@ -3,7 +3,7 @@ package com.kluckerz.editor.hud;
 import com.kluckerz.editor.KeyboardControl;
 
 /**
- *
+ * Controller class for the HUD element controls.
  * @author Gerald Backmeister <gerald at backmeister.name>
  */
 public class ElementController extends AbstractController {
@@ -32,8 +32,16 @@ public class ElementController extends AbstractController {
         triggerEvent(KeyboardControl.TURN_ELEMENT_X_CW);
     }
     
-    public void triggerInsertElement() {
-        triggerEvent(KeyboardControl.INSERT_ELEMENT);
+    public void triggerInsertElement(final String className) {
+        if(className == null) {
+            return;
+        }
+        
+        String actionCode = KeyboardControl.INSERT_ELEMENT.toString();
+        actionCode += ":"; // TODO: Konstante
+        actionCode += className;
+        
+        triggerEvent(actionCode);
     }
     
 }
