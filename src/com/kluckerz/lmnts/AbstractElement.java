@@ -59,7 +59,7 @@ public abstract class AbstractElement {
         Texture tex2 = assetManager.loadTexture(key2);
         material.setTexture("ColorMap", tex2);
          */
-        s.setMaterial(material);
+        // s.setMaterial(material);
         return s;
     }
     

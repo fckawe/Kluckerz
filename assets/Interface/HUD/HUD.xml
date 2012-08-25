@@ -24,6 +24,7 @@
         <attributes color="#ffffff" font="Interface/Fonts/dejavu-sans-condensed-15.fnt" />
         <effect>
             <onHover name="textColor" color="#44aa00" />
+            <onHover name="colorBar" width="105%" height="105%" color="#ffffff" />
             <onHover name="playSound" sound="hoverSound" />
             <onClick name="playSound" sound="clickSound" />
         </effect>
@@ -161,8 +162,12 @@
                     <control name="cc-element" id="element-cc" controller="com.kluckerz.editor.hud.ElementController" />
                     <control name="scrollPanel" style="special-scrollpanel" horizontal="false" width="90px" height="150px">
                         <panel childLayout="center" width="70px">
-                            <panel id="element-list" childLayout="vertical" controller="com.kluckerz.editor.hud.ElementController" />
-                            <!-- element-list gets filled dynamically -->
+                            <panel childLayout="horizontal">
+                                <panel width="5px" />
+                                <panel id="element-list" childLayout="vertical" align="left" controller="com.kluckerz.editor.hud.ElementController">
+                                    <!-- element-list gets filled dynamically -->
+                                </panel>
+                            </panel>
                         </panel>
                     </control>
                     <effect>
