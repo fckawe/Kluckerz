@@ -153,10 +153,11 @@ public class Editor implements ActionListener {
                 case CURSOR_NORTH:
                 case CURSOR_SOUTH:
                 case CURSOR_WEST:
-                case CURSOR_EAST:
+                case CURSOR_EAST: {
                     Direction camView = camera.getViewDirection();
                     moveCursor(kc, camView);
                     break;
+                }
                 case TURN_CAM_CLOCKWISE:
                 case TURN_CAM_COUNTERCLOCKWISE:
                 case ZOOM_CAM_IN:
@@ -176,11 +177,13 @@ public class Editor implements ActionListener {
                 case TURN_ELEMENT_Y_CW:
                 case TURN_ELEMENT_Y_CCW:
                 case TURN_ELEMENT_Z_CW:
-                case TURN_ELEMENT_Z_CCW:
+                case TURN_ELEMENT_Z_CCW: {
                     if(cursorHasElementSelected()) {
-                        turnSelectedElement(kc);
+                        Direction camView = camera.getViewDirection();
+                        turnSelectedElement(kc, camView);
                     }
                     break;
+                }
                 case TESTER:
                     // TODO: falling ball - only for testing physics
                     Material stone_mat = new Material(app.getAssetManager(),
@@ -276,14 +279,15 @@ public class Editor implements ActionListener {
         }
     }
     
-    private void turnSelectedElement(final KeyboardControl kc) {
+    private void turnSelectedElement(final KeyboardControl kc,
+            final Direction camView) {
         AbstractElement lmnt = cursor.getSelectedElement();
         switch(kc) {
             case TURN_ELEMENT_X_CW:
-                lmnt.rotateXClockwise();
+                lmnt.rotateXClockwise(camView);
                 break;
             case TURN_ELEMENT_X_CCW:
-                lmnt.rotateXCounterClockwise();
+                lmnt.rotateXCounterClockwise(camView);
                 break;
             case TURN_ELEMENT_Y_CW:
                 lmnt.rotateYClockwise();
@@ -292,10 +296,10 @@ public class Editor implements ActionListener {
                 lmnt.rotateYCounterClockwise();
                 break;
             case TURN_ELEMENT_Z_CW:
-                lmnt.rotateZClockwise();
+                lmnt.rotateZClockwise(camView);
                 break;
             case TURN_ELEMENT_Z_CCW:
-                lmnt.rotateZCounterClockwise();
+                lmnt.rotateZCounterClockwise(camView);
                 break;
         }
         app.getRootNodeWrapper().addAnimatingElement(lmnt);

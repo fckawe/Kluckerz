@@ -11,6 +11,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
+import com.kluckerz.Direction;
 import java.util.ResourceBundle;
 
 /**
@@ -88,10 +89,54 @@ public abstract class AbstractElement {
     }
     
     /**
+     * Rotates the element clockwise on x-axis depending on the camera's view
+     * direction.
+     * @param camView The direction in which the camera "looks".
+     */
+    public void rotateXClockwise(final Direction camView) {
+        switch(camView) {
+            case NORTH:
+                rotateXClockwise();
+                break;
+            case EAST:
+                rotateZClockwise();
+                break;
+            case SOUTH:
+                rotateXCounterClockwise();
+                break;
+            case WEST:
+                rotateZCounterClockwise();
+                break;
+        }
+    }
+    
+    /**
      * Rotates the element counter-clockwise on x-axis.
      */
     public void rotateXCounterClockwise() {
         rotationXChange -= 90;
+    }
+    
+    /**
+     * Rotates the element counter-clockwise on x-axis depending on the camera's
+     * view direction.
+     * @param camView The direction in which the camera "looks".
+     */
+    public void rotateXCounterClockwise(final Direction camView) {
+        switch(camView) {
+            case NORTH:
+                rotateXCounterClockwise();
+                break;
+            case EAST:
+                rotateZCounterClockwise();
+                break;
+            case SOUTH:
+                rotateXClockwise();
+                break;
+            case WEST:
+                rotateZClockwise();
+                break;
+        }
     }
     
     /**
@@ -116,10 +161,54 @@ public abstract class AbstractElement {
     }
     
     /**
+     * Rotates the element clockwise on z-axis depending on the camera's view
+     * direction.
+     * @param camView The direction in which the camera "looks".
+     */
+    public void rotateZClockwise(final Direction camView) {
+        switch(camView) {
+            case NORTH:
+                rotateZClockwise();
+                break;
+            case EAST:
+                rotateXCounterClockwise();
+                break;
+            case SOUTH:
+                rotateZCounterClockwise();
+                break;
+            case WEST:
+                rotateXClockwise();
+                break;
+        }
+    }
+    
+    /**
      * Rotates the element counter-clockwise on z-axis.
      */
     public void rotateZCounterClockwise() {
         rotationZChange -= 90;
+    }
+    
+    /**
+     * Rotates the element counter-clockwise on z-axis depending on the camera's
+     * view direction.
+     * @param camView The direction in which the camera "looks".
+     */
+    public void rotateZCounterClockwise(final Direction camView) {
+        switch(camView) {
+            case NORTH:
+                rotateZCounterClockwise();
+                break;
+            case EAST:
+                rotateXClockwise();
+                break;
+            case SOUTH:
+                rotateZClockwise();
+                break;
+            case WEST:
+                rotateXCounterClockwise();
+                break;
+        }
     }
     
     /**
